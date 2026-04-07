@@ -4,10 +4,11 @@
 
 ## Authors
 
-**Mingzhu Xu**<sup>1</sup>, **Zhengyu Sun**<sup>1</sup>, **Yijun Hu**<sup>1</sup>, **Haoyu Tang**<sup>1</sup>, **Yupeng Hu**<sup>1</sup>, **Xuemeng Song**<sup>2</sup>, **Liqiang Nie**<sup>2</sup>
+**Mingzhu Xu**<sup>1</sup>, **Zhengyu Sun**<sup>1</sup>, **Yijun Hu**<sup>1</sup>, **Haoyu Tang**<sup>1</sup>, **Yupeng Hu**<sup>1</sup>\*, **Xuemeng Song**<sup>2</sup>\*, **Liqiang Nie**<sup>3</sup>
 
 <sup>1</sup> `Shandong University`  
-<sup>2</sup> `Southern University of Science and Technology`  
+<sup>2</sup> `Shandong University, Qingdao`  
+<sup>3</sup> `Harbin Institute of Technology (Shen Zhen)`  
 \* Corresponding author
 
 ## Links
@@ -19,7 +20,6 @@
 
 ## Table of Contents
 
-- [Updates](#updates)
 - [Introduction](#introduction)
 - [Highlights](#highlights)
 - [Project Structure](#project-structure)
@@ -30,13 +30,6 @@
 - [Demo / Visualization](#demo--visualization)
 - [Citation](#citation)
 - [License](#license)
-
----
-
-## Updates
-
-- [04/2026] Initial release of the official implementation.
-- [01/2025] Paper published in IEEE TCSVT.
 
 ---
 
