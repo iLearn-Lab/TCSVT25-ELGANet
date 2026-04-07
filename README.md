@@ -1,126 +1,165 @@
 # Superpixel Segmentation With Edge Guided Local-Global Attention Network
 
-This is a PyTorch implementation of the superpixel segmentation network introduced in our TCSVT paper.
+> **Official PyTorch implementation of the TCSVT paper "Superpixel Segmentation With Edge Guided Local-Global Attention Network".**
 
+## Authors
 
+**Mingzhu Xu**<sup>1</sup>, **Zhengyu Sun**<sup>1</sup>, **Yijun Hu**<sup>1</sup>, **Haoyu Tang**<sup>1</sup>, **Yupeng Hu**<sup>1</sup>, **Xuemeng Song**<sup>2</sup>, **Liqiang Nie**<sup>2</sup>
 
-## Prerequisites
+<sup>1</sup> `Shandong University`  
+<sup>2</sup> `Southern University of Science and Technology`  
+\* Corresponding author
 
-During test, we make use of the component connection method in [SSN](https://github.com/NVlabs/ssn_superpixels) to enforce the connectivity 
-in superpixels. The code has been included in ```/third_paty/cython```. To compile it:
+## Links
 
- ```
+- **Paper**: [`IEEE Xplore`](https://doi.org/10.1109/TCSVT.2025.3587485)
+- **Code Repository**: [`GitHub`](https://github.com/iLearn-Lab/ELGANet)
+
+---
+
+## Table of Contents
+
+- [Updates](#updates)
+- [Introduction](#introduction)
+- [Highlights](#highlights)
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+- [Data Preparation](#data-preparation)
+- [Usage](#usage)
+- [Evaluation](#evaluation)
+- [Demo / Visualization](#demo--visualization)
+- [Citation](#citation)
+- [License](#license)
+
+---
+
+## Updates
+
+- [04/2026] Initial release of the official implementation.
+- [01/2025] Paper published in IEEE TCSVT.
+
+---
+
+## Introduction
+
+This project is the official implementation of the paper **"Superpixel Segmentation With Edge Guided Local-Global Attention Network" (ELGANet)**.
+
+Superpixel segmentation is a fundamental task in computer vision. ELGANet introduces an **Edge-Guided mechanism** and a **Local-Global Attention network**, significantly improving boundary adherence and semantic consistency.
+
+This repository provides:
+- Complete training and inference code.
+- Implementation of the edge-guided local-global attention network.
+- Full preprocessing and evaluation pipeline based on the BSDS500 dataset.
+
+---
+
+## Highlights
+
+- **Edge-Guided Attention**: Utilizes edge information to refine superpixel boundaries.
+- **Local-Global Context**: Captures both local details and global contextual information.
+- **High Efficiency**: Optimized PyTorch implementation with Cython-based post-processing to ensure connectivity.
+- **State-of-the-art Performance**: Achieves strong results on ASA, CO, and BR-BP metrics.
+
+---
+
+## Project Structure
+
+```text
+.
+├── data_preprocessing/    # BSDS500 data preprocessing scripts
+├── eval_spixel/           # Evaluation scripts (bash & MATLAB)
+├── third_party/           # External dependencies (including Cython connectivity module)
+├── main.py                # Main training script
+├── run_demo.py            # Inference demo
+├── requirements.txt       # Environment dependencies
+└── LICENSE                # License file
+```
+
+---
+
+## Installation
+
+### 1. Clone the repository
+
+```bash
+git clone [https://github.com/iLearn-Lab/ELGANet.git](https://github.com/iLearn-Lab/ELGANet.git)
+cd ELGANet
+```
+
+### 2. Prerequisites & Cython Compilation
+To ensure superpixel connectivity, you need to compile the components in `third_party`:
+
+```bash
 cd third_party/cython/
 python setup.py install --user
 cd ../..
- ```
-
-
-
-## Data preparation 
-
-To generate training and test dataset, please first download the data from the original [BSDS500 dataset](http://www.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/BSR/BSR_full.tgz), 
-and extract it to  ```<BSDS_DIR>```. Then, run 
-
 ```
+
+### 3. Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Data Preparation 
+
+1. Download the raw dataset from [BSDS500](http://www.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/BSR/BSR_full.tgz) and extract it to `<BSDS_DIR>`.
+2. Run the preprocessing scripts to generate training and testing data:
+
+```bash
 cd data_preprocessing
 python pre_process_bsd500.py --dataset=<BSDS_DIR> --dump_root=<DUMP_DIR>
 python pre_process_bsd500_ori_sz.py --dataset=<BSDS_DIR> --dump_root=<DUMP_DIR>
 cd ..
 ```
+The generated directory structure includes `/train`, `/val`, and `/test` folders, along with corresponding `.txt` path files.
 
-The code will generate three folders under the ```<DUMP_DIR>```, named as ```/train```, ```/val```, and ```/test```, and three ```.txt``` files 
-record the absolute path of the images, named as ```train.txt```, ```val.txt```, and ```test.txt```.
+---
 
+## Usage
 
-
-## Training
-
-Once the data is prepared, we should be able to train the model by running the following command
-
-```
+### Training
+Start training with the prepared dataset:
+```bash
 python main.py --data=<DUMP_DIR> --savepath=<CKPT_LOG_DIR>
 ```
 
-if we wish to continue a training process or fine-tune from a pre-trained model, we can run 
-
-```
+Fine-tune or resume training using a pretrained model:
+```bash
 python main.py --data=<DUMP_DIR> --savepath=<CKPT_LOG_DIR> --pretrained=<PATH_TO_THE_CKPT> 
 ```
 
-The code will start from the recorded status, which includes the optimizer status and epoch number. 
+### Demo
+Generate superpixel visualization results for images in a specific directory:
+```bash
+python run_demo.py --data_dir=PATH_TO_IMAGE_DIR --output=./demo 
+```
+The results will be saved in the `./demo/spixel_viz directory`.
 
-
+---
 
 ## Evaluation
 
-Following [FCN](https://github.com/fuy34/superpixel_fcn), we use the code from [superpixel benchmark](https://github.com/davidstutz/superpixel-benchmark) for superpixel evaluation. 
-A detailed  [instruction](https://github.com/davidstutz/superpixel-benchmark/blob/master/docs/BUILDING.md) is available in the repository, please
+Following the evaluation protocol of [FCN](https://github.com/fuy34/superpixel_fcn), we use the [superpixel benchmark](https://github.com/davidstutz/superpixel-benchmark) for evaluation.
 
-(1) download the code and build it accordingly;
+1. Download and compile the benchmark code according to the [instructions](https://github.com/davidstutz/superpixel-benchmark/blob/master/docs/BUILDING.md)。
+2. Edit variables in `eval_spixel/my_eval.sh` (e.g., `IMG_PATH`, `GT_PATH`, `SEG_PATH`).
+3. Run the evaluation script:
+   ```bash
+   cp eval_spixel/my_eval.sh <path/to/benchmark>/examples/bash/
+   cd <path/to/benchmark>/examples/
+   bash my_eval.sh
+   ```
+4. Configure the paths in `plot_benchmark_curve.m` in MATLAB and run it to visualize **ASA**, **CO**, and **BR-BP** curves.
 
-(2) edit the variables ```$SUPERPIXELS```, ```IMG_PATH``` , ```GT_PATH``` and ```SEG_PATH``` (output path) in ```/eval_spixel/my_eval.sh```,
-example:
-
-```
-SUPERPIXELS=("96" "216" "384" "600" "864" "1176" "1536" "1944")  
-#img and seg and gt's names must be same
-IMG_PATH=/home/BSR/dump_path/test
-GT_PATH=/home/BSR/dump_path/test/map_csv
-SEG_PATH=/home/ELGANet/output/Ours
-
-for SUPERPIXEL in "${SUPERPIXELS[@]}"
-do
-   #--vis create restruction_map
-   echo $SUPERPIXEL
-       ../bin/eval_summary_cli $SEG_PATH/test_multiscale_enforce_connect/ELGANet_nSpixel_${SUPERPIXEL}/map_csv  $IMG_PATH $GT_PATH  
-done
-
-```
-
-(3)run 
-
-```
-cp /eval_spixel/my_eval.sh <path/to/the/benchmark>/examples/bash/
-cd  <path/to/the/benchmark>/examples/
-bash my_eval.sh
-```
-
-(4) set the ```our1l_res_path``` in ```plot_benchmark_curve.m```
-
-example:
-
-```
-our1l_res_path ='/home/ELGANet/output/Ours/test_multiscale_enforce_connect/ELGANet_nSpixel_'
-n_set = length(num_list);
-Ours = zeros(n_set,5);
-for i=1:n_set
-    load_path = [our1l_res_path  num2str(num_list(i)) '/map_csv/results.csv']; 
-    Ours(i,:) = loadcsv(load_path);
-end
-```
-
-(5) run the ```plot_benchmark_curve.m```, the ```ASA Score```, ```CO Score```, and ```BR-BP curve```  of our method should be shown on the screen.
-
-
-
-## Demo
-
-Specify the image path and use the pre-trained model to generate superpixels for images. 
-
-```
-python run_demo.py --data_dir=PATH_TO_IMAGE_DIR --output=./demo 
-```
-
-The results will be generate in a new folder under ```/demo``` called ```spixel_viz```.
-
-
+---
 
 ## Citation
 
-If it helps your research, please use the information below to cite our work, thank you.
+If you use this code or method in your research, please cite our work:
 
-```
+```bibtex
 @ARTICLE{ELGANet,
   author={Xu, Mingzhu and Sun, Zhengyu and Hu, Yijun and Tang, Haoyu and Hu, Yupeng and Song, Xuemeng and Nie, Liqiang},
   journal={IEEE Transactions on Circuits and Systems for Video Technology}, 
@@ -130,7 +169,18 @@ If it helps your research, please use the information below to cite our work, th
   number={},
   pages={1-1},
   keywords={Image edge detection;Feature extraction;Convolution;Training;Semantics;Object detection;Circuits and systems;Visualization;Data mining;Iterative methods;Superpixel segmentation;Edge enhancement;Local-Global context},
-  doi={10.1109/TCSVT.2025.3587485}}
-
+  doi={10.1109/TCSVT.2025.3587485}
+}
 ```
 
+---
+
+## Acknowledgement
+
+- Thanks to [SSN](https://github.com/NVlabs/ssn_superpixels) for providing the connectivity implementation.
+- Thanks to [superpixel-benchmark](https://github.com/davidstutz/superpixel-benchmark) for providing the standard evaluation toolkit.
+---
+
+## License
+
+This project is released under the Apache License 2.0.
