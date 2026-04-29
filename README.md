@@ -159,17 +159,16 @@ For your convenience in comparative analysis, we have provided the final results
 If you use this code or method in your research, please cite our work:
 
 ```bibtex
-@ARTICLE{ELGANet,
+@ARTICLE{ELGANet2025TCSVT,
   author={Xu, Mingzhu and Sun, Zhengyu and Hu, Yijun and Tang, Haoyu and Hu, Yupeng and Song, Xuemeng and Nie, Liqiang},
   journal={IEEE Transactions on Circuits and Systems for Video Technology}, 
   title={Superpixel Segmentation With Edge Guided Local-Global Attention Network}, 
   year={2025},
-  volume={},
-  number={},
-  pages={1-1},
-  keywords={Image edge detection;Feature extraction;Convolution;Training;Semantics;Object detection;Circuits and systems;Visualization;Data mining;Iterative methods;Superpixel segmentation;Edge enhancement;Local-Global context},
-  doi={10.1109/TCSVT.2025.3587485}
-}
+  volume={35},
+  number={12},
+  pages={11922-11934},
+  doi={10.1109/TCSVT.2025.3587485}}
+
 ```
 
 ---
