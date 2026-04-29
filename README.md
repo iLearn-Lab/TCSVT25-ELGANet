@@ -14,7 +14,7 @@
 ## Links
 
 - **Paper**: [`IEEE Xplore`](https://doi.org/10.1109/TCSVT.2025.3587485)
-- **Code Repository**: [`GitHub`](https://github.com/iLearn-Lab/ELGANet)
+- **Code Repository**: [`GitHub`](https://github.com/iLearn-Lab/TCSVT25-ELGANet)
 
 ---
 
@@ -145,6 +145,12 @@ Following the evaluation protocol of [FCN](https://github.com/fuy34/superpixel_f
    bash my_eval.sh
    ```
 4. Configure the paths in `plot_benchmark_curve.m` in MATLAB and run it to visualize **ASA**, **CO**, and **BR-BP** curves.
+
+---
+
+## Results
+
+For your convenience in comparative analysis, we have provided the final results of the ELGANet model on four datasets (BSDS, NYU, KITTI, and DRIVE) at the following link [Baidu Netdisk](https://pan.baidu.com/s/1f0vC3-5TmggA3Q5fQcSTDw?pwd=ghph), which you may download at any time for comparison.
 
 ---
 
